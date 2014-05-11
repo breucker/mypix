@@ -2,16 +2,25 @@ if (Meteor.isClient)
   Objects = new Meteor.Collection("objects")
   Meteor.subscribe('objects')
 
+  navigate = (href)->
+    $(".nav li").removeClass('active')
+    $("a[href='"+href+"']").parent().addClass('active')
+
   #main
   Template.main.content = ()->
     page = Session.get('page')
+
     switch page
-      when 'hello' then t =  Template.hello
-      when 'picture'         
+      when 'hello'
+       t =  Template.hello
+       navigate('hello')       
+      when 'picture'     
+        navigate('picture')
         t = Template.picture
         t.file = ()->
          Objects.findOne(Session.get('id'))
-      when 'inventory'        
+      when 'inventory'      
+        navigate('inventory')
         t = Template.inventory
         t.pixlist = ()->
           list = Objects.find().fetch()
