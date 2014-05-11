@@ -1,0 +1,44 @@
+<head>
+  <title>Croisy - Inventaire</title>
+</head>
+
+
+<body>
+
+    <div class="container">
+
+      <!-- Static navbar -->
+      <div class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+          <div class="navbar">
+	          <div class="navbar-inner">
+	            <div class="container">
+	              <ul class="nav">
+	                <li class="active"><a href="#">Accueil</a></li>
+	                <li><a href="#">Inventaire</a></li>
+	                <li><a href="#">Votes</a></li>
+	              </ul>
+	            </div>
+	          </div>
+		        </div><!-- /.navbar -->
+        </div><!--/.container-fluid -->
+      </div>
+      {{> main}}
+  </div> <!-- /container -->
+</body>
+
+<template name="main">
+  <div class="container" id="main">
+    {{> content}}
+  </div>
+</template>
+
+<template name="hello">
+	<div class="well">
+        <h1>Croisy - Inventaire</h1>
+        <p>Bienvenue sur l'inventaire de la maison de Grand-Maman, à Croissy. Cet outil permet d'exprimer des voeux pour les objets, identifiés sur les photos prises lors de l'inventaire de la maison. Vous pouvez "voter" pour chaque objet dans les photos afin de donner votre préférence. Pour commencer, cliquer sur le bouton "démarrer" si dessous.</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="#">Démarrer &raquo;</a>
+        </p>
+      </div>
+</template>

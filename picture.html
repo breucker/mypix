@@ -1,0 +1,18 @@
+<template name="picture">
+  <h1>{{name}}</h1>
+  <img src="{{url}}" />
+  <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
+  
+    <div id="frmvote">
+      {{>votes}}
+    </div>
+</template>
+
+<template name="votes">
+
+  <form id="votes">
+    <h2>Ajouter un objet</h2>
+    <label>Description</label><input type="text" id="name" placeholder="décrire l'objet voulu" />
+    <label>Votre Vote</label><input type="text" id="{{vote}}" placehoder="votre note"/>
+  </form>
+</template>
