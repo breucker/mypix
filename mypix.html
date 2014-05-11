@@ -14,13 +14,13 @@
 </body>
 
 <template name="main">
-  <div class="container" id="main">
+  <div class="container main" id="main">
     {{> content}}
   </div>
 </template>
 
 <template name="nav">
-  <div class="navbar navbar-default" role="navigation">
+  <div class="navbar navbar navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <div class="navbar">
         <div class="navbar-inner">
@@ -30,6 +30,9 @@
               <li><a href="inventory">Inventaire</a></li>
               <li><a href="votes">Votes</a></li>
             </ul>
+            <div class="navbarform pull-right">
+              {{>loginButtons}}
+            </div>
           </div>
         </div>
       </div><!-- /.navbar -->

@@ -51,10 +51,11 @@ if (Meteor.isClient)
       id = Session.get("id")
       priority = $('#vote').val()
       description = $('#description').val()
-      Objects.update(id, $addToSet:{'vote':{'description': description, 'priority': priority}})
+      Objects.update(id, $addToSet:{'vote':{'description': description, 'priority': priority, 'user':Meteor.userId()}})
     )
 
 if (Meteor.isServer) 
   Meteor.startup ()->
+    Meteor.AppCache.config({firefox: true});
     console.log "ok"
 
