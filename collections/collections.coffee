@@ -14,8 +14,8 @@ if (Meteor.isServer)
       fileName.indexOf('.JPG') < 0;
 
     _(cleanedUpFiles).each (f)->
-      
-      fObject = {name: f, url:'/uploads/'+f, vote: []}
+      console.log 'updating ',f
+      fObject = {name: f, url:'/uploads/'+f}
       o = Objects.upsert({name: f}, $set:fObject)
       # if !o
       #   Objects.insert(fObject)

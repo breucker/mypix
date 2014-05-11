@@ -46,12 +46,13 @@ if (Meteor.isClient)
       Session.set('page','picture')
     )
 
+  #picture
   Template.picture.events(
     'click #save' : ()->
       id = Session.get("id")
       priority = $('#vote').val()
       description = $('#description').val()
-      Objects.update(id, $addToSet:{'vote':{'description': description, 'priority': priority, 'user':Meteor.userId()}})
+      Objects.update(id, $push:{'vote':{'description': description, 'priority': priority, 'user':Meteor.userId()}})
     )
 
 if (Meteor.isServer) 
