@@ -8,21 +8,7 @@
     <div class="container">
 
       <!-- Static navbar -->
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <div class="navbar">
-	          <div class="navbar-inner">
-	            <div class="container">
-	              <ul class="nav">
-	                <li class="active"><a href="#">Accueil</a></li>
-	                <li><a href="#">Inventaire</a></li>
-	                <li><a href="#">Votes</a></li>
-	              </ul>
-	            </div>
-	          </div>
-		        </div><!-- /.navbar -->
-        </div><!--/.container-fluid -->
-      </div>
+      {{> nav}}
       {{> main}}
   </div> <!-- /container -->
 </body>
@@ -30,6 +16,24 @@
 <template name="main">
   <div class="container" id="main">
     {{> content}}
+  </div>
+</template>
+
+<template name="nav">
+  <div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <div class="container">
+            <ul class="nav">
+              <li class="active"><a href="home">Accueil</a></li>
+              <li><a href="inventory">Inventaire</a></li>
+              <li><a href="votes">Votes</a></li>
+            </ul>
+          </div>
+        </div>
+      </div><!-- /.navbar -->
+    </div><!--/.container-fluid -->
   </div>
 </template>
 

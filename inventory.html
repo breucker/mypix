@@ -1,0 +1,14 @@
+<template name='inventory'>
+	<h1>Inventaire</h1>
+	<div id="pix">
+		<ul class="thumbnails">
+		{{#each pixlist}}
+		<li class="span4">
+	    	<a href="#" class="thumbnail" rel="{{name}}" id="{{_id}}">
+	      		<img src="{{url}}" alt="{{name}}" />
+	    	</a>
+  		</li>
+	    {{/each}}
+		</ul>
+	</div>
+</template>

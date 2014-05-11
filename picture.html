@@ -1,6 +1,6 @@
 <template name="picture">
-  <h1>{{name}}</h1>
-  <img src="{{url}}" />
+  <h1>{{file.name}}</h1>
+  <img src="{{file.url}}" />
   <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
   
     <div id="frmvote">
@@ -12,7 +12,10 @@
 
   <form id="votes">
     <h2>Ajouter un objet</h2>
-    <label>Description</label><input type="text" id="name" placeholder="décrire l'objet voulu" />
-    <label>Votre Vote</label><input type="text" id="{{vote}}" placehoder="votre note"/>
+    <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
+    <label>Votre Vote</label><input type="text" id="vote" name="vote" placehoder="votre note"/>
+    <p>
+          <a class="btn btn-primary" href="#" id="save">Enregistrer &raquo;</a>
+    </p>
   </form>
 </template>

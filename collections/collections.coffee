@@ -1,9 +1,9 @@
 #collections
 
-Objects = new Meteor.Collection('objects')
-#fs = Npm.require('fs');
-
 if (Meteor.isServer) 
+
+  Objects = new Meteor.Collection('objects')
+  
   Meteor.startup ()->
     console.log "collection"
     #fs.readdir '../../../../../public', (err, files)->
@@ -15,7 +15,7 @@ if (Meteor.isServer)
 
     _(cleanedUpFiles).each (f)->
       
-      fObject = {name: f, url:'/uploads/'+f}
+      fObject = {name: f, url:'/uploads/'+f, vote: []}
       o = Objects.upsert({name: f}, $set:fObject)
       # if !o
       #   Objects.insert(fObject)
@@ -24,4 +24,7 @@ if (Meteor.isServer)
 
     list = Objects.find().fetch()
     console.log list
+
+  Meteor.publish 'objects', ()->
+    Objects.find()
     
