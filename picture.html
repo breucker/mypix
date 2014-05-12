@@ -9,13 +9,39 @@
 </template>
 
 <template name="votes">
+  <div class="row">
+    <div class="span4">
+      <form id="votes">
+        <h2>Ajouter un objet</h2>
+        <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
+        <label>Votre Vote</label><input type="text" id="vote" name="vote" placehoder="votre note"/>
+        <p>
+              <a class="btn btn-primary" href="#" id="save">Enregistrer &raquo;</a>
+        </p>
+      </form>
+    </div>
+    <div class="span8">
+      {{#if voteslist}}
+      <table class="table table-striped">
+        <thead>
+          <tr><th>Objet</th><th>Vote</th></tr>
+        </thead>
+        <tbody>
+          {{#each voteslist}}
+          <tr><td>{{description}}</td>
+            <td>
+            {{#each votes}}
+              {{userid}} : {{priority}},
+            {{/each}}
+            <a href="#">ajouter un vote</a>
+            </td>
 
-  <form id="votes">
-    <h2>Ajouter un objet</h2>
-    <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
-    <label>Votre Vote</label><input type="text" id="vote" name="vote" placehoder="votre note"/>
-    <p>
-          <a class="btn btn-primary" href="#" id="save">Enregistrer &raquo;</a>
-    </p>
-  </form>
+          </tr>
+          {{/each}}
+        </tbody>      
+      </table>
+      {{/if}}
+    </div>
+  </div>
+  
 </template>

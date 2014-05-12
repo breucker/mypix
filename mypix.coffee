@@ -1,6 +1,9 @@
 if (Meteor.isClient)
   Objects = new Meteor.Collection("objects")
-  Meteor.subscribe('objects')
+  
+  Meteor.startup ()->
+    Session.set('page', 'hello')
+    Session.set('id',null)
 
   navigate = (href)->
     $(".nav li").removeClass('active')
@@ -8,17 +11,22 @@ if (Meteor.isClient)
 
   #main
   Template.main.content = ()->
+    Meteor.subscribe('objects')
     page = Session.get('page')
 
     switch page
       when 'hello'
        t =  Template.hello
-       navigate('hello')       
-      when 'picture'     
+       navigate('hello')  
+
+      when 'picture'  
+        if(Session.get('id') is null)
+          Session.set('page','hello')
+          return
+
         navigate('picture')
         t = Template.picture
-        t.file = ()->
-         Objects.findOne(Session.get('id'))
+
       when 'inventory'      
         navigate('inventory')
         t = Template.inventory
@@ -26,6 +34,7 @@ if (Meteor.isClient)
           list = Objects.find().fetch()
           #console.log list
           list
+
       else t = Template.hello
     t
 
@@ -42,8 +51,7 @@ if (Meteor.isClient)
   #hello
   Template.hello.events(
     'click a': ()->
-        Session.set('page', 'picture')
-        console.log "page = picture"
+        Session.set('page', 'inventory')
     )
 
   #inventory
@@ -56,16 +64,57 @@ if (Meteor.isClient)
     )
 
   #picture
+  Template.file = ()->
+    if(Session.get('id')?)
+      pix = Objects.findOne({name: Session.get('id')})
+      if(pix?)
+        t.file = ()->
+        console.log pix
+        pix
+
+  Template.votes.voteslist = ()->
+    if(Session.get('id')?)
+      pix = Objects.findOne({name: Session.get('id')})
+      if(pix?)
+        pix.objects
+
   Template.picture.events(
-    'click #save' : ()->
-      id = Session.get("id")
+    'click #save' : (evt)->
+      evt.preventDefault()
+      name = Session.get("id")
       priority = $('#vote').val()
       description = $('#description').val()
-      Objects.update(id, $push:{'vote':{'description': description, 'priority': priority, 'user':Meteor.userId()}})
+      pix = Objects.findOne({name: name})
+      descList = _(pix.objects).pluck('description')
+      if _(descList).contains(description)
+        console.log 'object found : ', description
+        Meteor.call "addVote", pix, description, priority, (err, nb)->
+          if(err)
+            console.log('err :', err)
+          else
+            console.log('ok : ', nb, 'updated')
+        
+      else
+        console.log 'creating object : ', description
+        Objects.update( 
+          pix._id, 
+          $addToSet: 
+            objects:
+              description: description
+              votes: [  
+                priority: priority
+                userid: Meteor.userId()         
+              ]
+        , (err, nb)->
+          if(err)
+            console.log('err :', err)
+          else
+            console.log('ok : ', nb, 'updated')
+        )
     )
 
 if (Meteor.isServer) 
   Meteor.startup ()->
-    Meteor.AppCache.config({firefox: true});
+    # Meteor.AppCache.config({firefox: true});
     console.log "ok"
 
