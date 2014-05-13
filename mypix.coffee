@@ -31,6 +31,10 @@ if (Meteor.isClient)
         navigate('inventory')
         t = Template.inventory
 
+      when 'votes'      
+        navigate('votes')
+        t = Template.globalvotes
+
       else t = Template.hello
     t
 
@@ -114,6 +118,19 @@ if (Meteor.isClient)
           else
             console.log('ok : ', nb, 'updated')
         )
+    )
+
+  #votes
+  Template.globalvotes.voteslist = ()->
+    pixList = Objects.find({objects: {$exists: true}})
+    pixList
+
+  Template.globalvotes.events(
+    'click a' : (evt)->
+      evt.preventDefault()
+      link=$(evt.currentTarget)
+      Session.set('id',link.attr('href'))
+      Session.set('page','picture')
     )
 
 if (Meteor.isServer) 

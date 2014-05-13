@@ -1,0 +1,24 @@
+<template name="globalvotes">
+<h1>Votes</h1>
+{{#each voteslist}}
+ <h2><img src="{{url}}" class="small-img"> <a href="{{name}}">{{name}}</a></h2>
+ 
+<table  id="votes" class="table table-striped">
+  <thead>
+    <tr><th>Objet</th><th>Vote</th></tr>
+  </thead>
+  <tbody>
+  {{#each objects}}
+    <tr>
+      <td>{{description}}</td>
+      <td>
+        {{#each votes}}
+          {{userid}} : {{priority}},
+        {{/each}}
+      </td>
+    </tr>
+  {{/each}}
+  </tbody>      
+</table>
+{{/each}}
+</template>
