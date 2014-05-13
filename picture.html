@@ -3,7 +3,7 @@
   <img src="{{file.url}}" />
   <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
   
-    <div id="frmvote">
+    <div id="votes">
       {{>votes}}
     </div>
 </template>
@@ -11,7 +11,7 @@
 <template name="votes">
   <div class="row">
     <div class="span4">
-      <form id="votes">
+      <form id="frmVotes" class="hide">
         <h2>Ajouter un objet</h2>
         <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
         <label>Votre Vote</label><input type="text" id="vote" name="vote" placehoder="votre note"/>
@@ -33,13 +33,18 @@
             {{#each votes}}
               {{userid}} : {{priority}},
             {{/each}}
-            <a href="#">ajouter un vote</a>
+            <a href="#" class="btn btn-small addVote">ajouter un vote</a>
+            <form class="inline-form">
+              <label>Votre Vote</label> : <input type="text" id="vote" name="vote" placehoder="votre note"/>
+            </form>
             </td>
 
           </tr>
           {{/each}}
         </tbody>      
       </table>
+      {{else}}
+      <a class="btn btn-primary addVote" id="addObject">Ajouter un objet</a>
       {{/if}}
     </div>
   </div>

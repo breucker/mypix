@@ -64,11 +64,10 @@ if (Meteor.isClient)
     )
 
   #picture
-  Template.file = ()->
+  Template.picture.file = ()->
     if(Session.get('id')?)
       pix = Objects.findOne({name: Session.get('id')})
       if(pix?)
-        t.file = ()->
         console.log pix
         pix
 
@@ -79,6 +78,9 @@ if (Meteor.isClient)
         pix.objects
 
   Template.picture.events(
+    'click a.addVote' : (evt)->
+      evt.preventDefault()
+      $('#frmVotes').fadeIn('fast')
     'click #save' : (evt)->
       evt.preventDefault()
       name = Session.get("id")
