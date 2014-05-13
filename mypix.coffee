@@ -30,10 +30,6 @@ if (Meteor.isClient)
       when 'inventory'      
         navigate('inventory')
         t = Template.inventory
-        t.pixlist = ()->
-          list = Objects.find().fetch()
-          #console.log list
-          list
 
       else t = Template.hello
     t
@@ -55,6 +51,11 @@ if (Meteor.isClient)
     )
 
   #inventory
+  Template.inventory.pixlist = ()->
+    list = Objects.find({},{sort:{name:1}}).fetch()
+    #console.log list
+    list
+
   Template.inventory.events(
     'click a' : (evt)->
       evt.preventDefault()
