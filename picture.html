@@ -1,52 +1,61 @@
 <template name="picture">
   <h1>{{file.name}}</h1>
-  <img src="{{file.url}}" />
-  <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
-  
-    <div id="votes">
-      {{>votes}}
+  <div class="row">
+    <div class="span8">
+      <img src="{{file.url}}" />
     </div>
+    <div class="span4">
+      <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
+      <div id="votes">
+        {{>votes}}
+      </div>  
+    </div>
+    
+  </div>
+  
 </template>
 
 <template name="votes">
-  <div class="row">
-    <div class="span4">
-      <form id="frmVotes" class="hide">
-        <h2>Ajouter un objet</h2>
-        <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
-        <label>Votre Vote</label><input type="text" id="vote" name="vote" placehoder="votre note"/>
-        <p>
-              <a class="btn btn-primary" href="#" id="save">Enregistrer &raquo;</a>
-        </p>
-      </form>
-    </div>
-    <div class="span8">
-      {{#if voteslist}}
-      <table class="table table-striped">
-        <thead>
-          <tr><th>Objet</th><th>Vote</th></tr>
-        </thead>
-        <tbody>
-          {{#each voteslist}}
-          <tr><td>{{description}}</td>
-            <td>
-            {{#each votes}}
-              {{userid}} : {{priority}},
-            {{/each}}
-            <a href="#" class="btn btn-small addVote">ajouter un vote</a>
-            <form class="inline-form hide">
-              <label>Votre Vote</label> : <input type="text" id="vote" name="vote" placehoder="votre note"/>
-            </form>
-            </td>
-
-          </tr>
-          {{/each}}
-        </tbody>      
-      </table>
-      {{else}}
-      <a class="btn btn-primary addVote" id="addObject">Ajouter un objet</a>
-      {{/if}}
-    </div>
+  <div class="span4">
+    <form id="frmVotes" class="hide">
+      <h2>Ajouter un objet</h2>
+      <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
+      <label>Votre Vote</label><input type="text" id="vote" name="vote" placehoder="votre note"/>
+      <p>
+            <a class="btn btn-primary" href="#" id="save">Enregistrer &raquo;</a>
+      </p>
+    </form>
   </div>
-  
+  <div class="span4">
+    {{#if voteslist}}
+    <table class="table table-bordered table-hover ">
+      <thead>
+        <tr><th>Objet</th><th>Vote</th></tr>
+      </thead>
+      <tbody>
+        {{#each voteslist}}
+        <tr><td>{{description}}</td>
+          <td>
+            {{#each votes}}
+              <div class="progress">
+                <div class="bar" style="width: {{priority}}%;">{{user}} : {{priority}}</div>
+              </div>
+            {{/each}}
+          {{#if userHasVoted}}
+            <a href="#" class="btn btn-small" id="changeVote" rel="{{description}}">changer votre vote pour {{description}}</a>
+          {{else}}
+            <a href="#" class="btn btn-small" id="addVote" rel="{{description}}">ajouter un vote pour {{description}}</a>
+          {{/if}}
+          <form class="inline-form hide">
+            <label>Votre Vote</label> : <input type="text" id="vote" name="vote" placehoder="votre note"/>
+          </form>
+          </td>
+
+        </tr>
+        {{/each}}
+      </tbody>      
+    </table>
+    {{/if}}
+    <a class="btn btn-primary" id="addObject">Ajouter un objet</a>
+  </div> 
 </template>

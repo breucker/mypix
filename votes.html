@@ -12,9 +12,11 @@
     <tr>
       <td>{{description}}</td>
       <td>
-        {{#each votes}}
-          {{userid}} : {{priority}},
-        {{/each}}
+        <ul>
+            {{#each votes}}
+              <li>{{userid}} : {{priority}}</li>
+            {{/each}}
+        </ul>
       </td>
     </tr>
   {{/each}}

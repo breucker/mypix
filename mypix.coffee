@@ -80,12 +80,45 @@ if (Meteor.isClient)
     if(Session.get('id')?)
       pix = Objects.findOne({name: Session.get('id')})
       if(pix?)
+        _(pix.objects).each (object,keyObject)->
+          object.votes = _(object.votes).sortBy (v)->
+            -v.priority
+
+          _(object.votes).each (vote, keyVote)->
+            pix.objects[keyObject].votes[keyVote].priority = vote.priority * 100/5
+
+            if(Meteor.userId() ==  vote.userid )
+              pix.objects[keyObject].votes[keyVote].user = "vous"
+              pix.objects[keyObject].userHasVoted = true
+            else
+              if(vote.userid)
+                pix.objects[keyObject].votes[keyVote].user = Meteor.users.findOne({_id : vote.userid}).emails[0].address
+            
+            console.log 'vote : ',vote, keyVote
+        console.log pix
         pix.objects
 
   Template.picture.events(
-    'click a.addVote' : (evt)->
+
+    #ajout d'un vote à un objet existant
+    'click #addVote,#changeVote' : (evt)->
       evt.preventDefault()
+      $('#description').val $(evt.currentTarget).attr('rel')
+      $('#description').prop('disabled',true)
       $('#frmVotes').fadeIn('fast')
+      $('a.addVote').fadeOut('fast')
+
+    #ajout d'un nouvel objet
+    'click #addObject' : (evt)->
+      evt.preventDefault()
+
+      $('#frmVotes')[0].reset()
+      $('#description').prop('disabled',false)
+
+
+      $('#frmVotes').fadeIn('fast')
+      $('a.addVote').fadeOut('fast')
+
     'click #save' : (evt)->
       evt.preventDefault()
       name = Session.get("id")
@@ -95,11 +128,19 @@ if (Meteor.isClient)
       descList = _(pix.objects).pluck('description')
       if _(descList).contains(description)
         console.log 'object found : ', description
-        Meteor.call "addVote", pix, description, priority, (err, nb)->
-          if(err)
-            console.log('err :', err)
-          else
-            console.log('ok : ', nb, 'updated')
+        o = Objects.findOne({_id : pix._id, "objects.description": description, "objects.votes.userid" : Meteor.userId()})
+        if(o)
+          Meteor.call "updateVote", pix, description, priority, Meteor.userId(), (err, nb)->
+            if(err)
+              console.log('err :', err)
+            else
+              console.log('ok : ', nb, 'updated')
+        else
+          Meteor.call "addVote", pix, description, priority, (err, nb)->
+            if(err)
+              console.log('err :', err)
+            else
+              console.log('ok : ', nb, 'updated')
         
       else
         console.log 'creating object : ', description
@@ -118,6 +159,9 @@ if (Meteor.isClient)
           else
             console.log('ok : ', nb, 'updated')
         )
+      $('#frmVotes').fadeOut('fast')      
+      $('a.addVote').fadeIn('fast')
+
     )
 
   #votes

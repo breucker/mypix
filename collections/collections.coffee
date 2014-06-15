@@ -36,6 +36,37 @@ if (Meteor.isServer)
           if(err)
             console.log('err :', err)
           else
-            console.log('ok : ', nb, 'updated')
-          )
+            console.log('ok : ', nb, 'vote added')
+      )
+    
+    updateVote: (pix, description, priority, userId)->
+      o = Objects.findOne(pix._id, "objects.description":description)
+      console.log o.objects
+      theObjectKey = null
+      theVoteKey = null
+      _(o.objects).each (object, objectKey)->
+        console.log objectKey, "->",object.votes, "description ", description
+        if(object.description == description)
+          console.log 'description found'
+          theObjectKey = objectKey
+          _(object.votes).each (vote, voteKey)->
+            if(vote.userid == userId)
+              theVoteKey = voteKey
+
+
+      console.log theObjectKey, theVoteKey
+      vote = {}
+      vote["objects."+theObjectKey+".votes."+theVoteKey] =  {priority : priority, userid : userId}
+
+      Objects.update(
+        {_id: pix._id},
+        $set:
+           vote
+            
+        , (err, nb)->
+          if(err)
+            console.log('err :', err)
+          else
+            console.log('ok : ', nb, 'vote updated for ',description)
+      )
     )
