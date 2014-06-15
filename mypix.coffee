@@ -92,7 +92,9 @@ if (Meteor.isClient)
               pix.objects[keyObject].userHasVoted = true
             else
               if(vote.userid)
-                pix.objects[keyObject].votes[keyVote].user = Meteor.users.findOne({_id : vote.userid}).emails[0].address
+                address = Meteor.users.findOne({_id : vote.userid}).emails[0].address
+                console.log address
+                pix.objects[keyObject].votes[keyVote].user = address
             
             console.log 'vote : ',vote, keyVote
         console.log pix

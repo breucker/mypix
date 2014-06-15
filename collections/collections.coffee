@@ -22,7 +22,10 @@ if (Meteor.isServer)
     console.log _(list).size()," objects in collection"
 
   Meteor.publish 'objects', ()->
-    Objects.find()
+    [
+      Objects.find(),
+      Meteor.users.find() # this is ugly !! but don't know how to do otherwise...
+    ]
   
   Meteor.methods(
     addVote: (pix, description, priority)->
@@ -69,4 +72,10 @@ if (Meteor.isServer)
           else
             console.log('ok : ', nb, 'vote updated for ',description)
       )
+
+    getUserMail: (userId)->
+      u = Meteor.users.findOne({_id : userId})
+      console.log u.emails[0].address
+      return u.emails[0].address
+
     )
