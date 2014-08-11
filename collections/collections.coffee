@@ -7,16 +7,16 @@ if (Meteor.isServer)
   Meteor.startup ()->
     console.log "collection building..."
     #fs.readdir '../../../../../public', (err, files)->
-    files = fs.readdirSync '../../../../../public/uploads'
+    # files = fs.readdirSync '../../../../../public/uploads'
       
-    # console.log files
-    cleanedUpFiles = _(files).reject (fileName) ->
-      fileName.indexOf('.JPG') < 0;
+    # # console.log files
+    # cleanedUpFiles = _(files).reject (fileName) ->
+    #   fileName.indexOf('.JPG') < 0;
 
-    _(cleanedUpFiles).each (f)->
-      # console.log 'updating ',f
-      fObject = {name: f, url:'/uploads/'+f}
-      o = Objects.upsert({name: f}, $set:fObject)
+    # _(cleanedUpFiles).each (f)->
+    #   # console.log 'updating ',f
+    #   fObject = {name: f, url:'/uploads/'+f}
+    #   o = Objects.upsert({name: f}, $set:fObject)
 
     list = Objects.find().fetch()
     console.log _(list).size()," objects in collection"
@@ -29,6 +29,7 @@ if (Meteor.isServer)
   
   Meteor.methods(
     addVote: (pix, description, priority)->
+      console.log 'addVote called with ',pix, description, priority
       Objects.update(
         {_id: pix._id, "objects.description":description},
         $push:
@@ -60,7 +61,7 @@ if (Meteor.isServer)
       console.log theObjectKey, theVoteKey
       vote = {}
       vote["objects."+theObjectKey+".votes."+theVoteKey] =  {priority : priority, userid : userId}
-
+      
       Objects.update(
         {_id: pix._id},
         $set:

@@ -5,10 +5,15 @@
       <img src="{{file.url}}" />
     </div>
     <div class="span4">
+     {{#if currentUser}}
       <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
       <div id="votes">
         {{>votes}}
-      </div>  
+      </div>
+      {{else}}
+        <p>Un objet vous intéresse dans cette photo ? Attention vous devez vous connecter pour pouvoir ajouter un objet ou un vote ! Cliquer sur "sign in" en haut à droite. </p>
+      {{/if}}
+
     </div>
     
   </div>
@@ -17,10 +22,16 @@
 
 <template name="votes">
   <div class="span4">
+
     <form id="frmVotes" class="hide">
       <h2>Ajouter un objet</h2>
       <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
-      <label>Votre Vote</label><input type="text" id="vote" name="vote" placehoder="votre note"/>
+      <label>Votre sentiment sur cet objet :</label>
+      <select name="vote" id="vote">
+        <option value="1">Si personne n'en veux, je le veux bien !</option>
+        <option value="2">J'aimerai bien le récupérer...</option>
+        <option value="3">Je le veux !</option>
+      </select>
       <p>
             <a class="btn btn-primary" href="#" id="save">Enregistrer &raquo;</a>
       </p>
@@ -38,7 +49,7 @@
           <td>
             {{#each votes}}
               <div class="progress">
-                <div class="bar" style="width: {{priority}}%;">{{user}} : {{priority}}</div>
+                <div class="bar" style="width: {{priority}}%;">{{user}} : {{label}}</div>
               </div>
             {{/each}}
           {{#if userHasVoted}}
@@ -47,7 +58,13 @@
             <a href="#" class="btn btn-small" id="addVote" rel="{{description}}">ajouter un vote pour {{description}}</a>
           {{/if}}
           <form class="inline-form hide">
-            <label>Votre Vote</label> : <input type="text" id="vote" name="vote" placehoder="votre note"/>
+            <label>Votre sentiment sur cet objet :</label> :
+            <select name="vote" id="vote">
+              <option value="1">Si personne n'en veux, je le veux bien !</option>
+              <option value="2">J'aimerai bien le récupérer...</option>
+              <option value="3">C'est mon objet préferé !</option>
+            </select>
+             <!-- <input type="text" id="vote" name="vote" placehoder="votre note"/> -->
           </form>
           </td>
 

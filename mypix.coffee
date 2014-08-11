@@ -85,7 +85,19 @@ if (Meteor.isClient)
             -v.priority
 
           _(object.votes).each (vote, keyVote)->
-            pix.objects[keyObject].votes[keyVote].priority = vote.priority * 100/5
+            pix.objects[keyObject].votes[keyVote].priority = vote.priority * 100/3
+            switch vote.priority
+              when 1
+                l = "*"
+              when 2
+                l = "**"
+              when 3
+                l = "***"
+
+            pix.objects[keyObject].votes[keyVote].label = l
+
+
+
 
             if(Meteor.userId() ==  vote.userid )
               pix.objects[keyObject].votes[keyVote].user = "vous"

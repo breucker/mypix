@@ -7,18 +7,18 @@
     "packages": {
       "fs": {
         "git": "https://github.com/peerlibrary/meteor-fs.git",
-        "tag": "v0.1.2",
-        "commit": "069d7fcaeb5df000a57238fde2785faf6dc1c37c"
+        "tag": "v0.1.4",
+        "commit": "621152ae48435802219aff8bc38b4895731d152d"
       },
       "assert": {
         "git": "https://github.com/peerlibrary/meteor-assert.git",
-        "tag": "v0.2.3",
-        "commit": "9c838fbf5053a9f4c9ea21cad8e2fef8f1374e7c"
+        "tag": "v0.2.4",
+        "commit": "e81fb4ac29a621eafbd99e63660048a3c827c0fb"
       },
       "blocking": {
         "git": "https://github.com/peerlibrary/meteor-blocking.git",
-        "tag": "v0.4.0",
-        "commit": "e25a0be72e771b317b26d2bb5758c983bdcef23c"
+        "tag": "v0.4.1",
+        "commit": "512354e9721d931c7884b56fbb3b419d060ae8da"
       }
     }
   }
