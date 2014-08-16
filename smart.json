@@ -1,7 +1,5 @@
 {
   "packages": {
-    "fs": {},
-    "accounts-t9n": {},
-    "accounts-templates-core": {}
+    "fs": {}
   }
 }

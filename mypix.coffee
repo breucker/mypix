@@ -4,7 +4,6 @@ if (Meteor.isClient)
   Meteor.startup ()->
     Session.set('page', 'hello')
     Session.set('id',null)
-    T9n.setLanguage('fr');
 
   navigate = (href)->
     $(".nav li").removeClass('active')
