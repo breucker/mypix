@@ -53,9 +53,9 @@
               </div>
             {{/each}}
           {{#if userHasVoted}}
-            <a href="#" class="btn btn-small" id="changeVote" rel="{{description}}">changer votre vote pour {{description}}</a>
+            <a href="#" class="btn btn-small" id="changeVote" rel="{{description}}"><i class="icon icon-edit"></i> changer votre vote pour {{description}}</a>
           {{else}}
-            <a href="#" class="btn btn-small" id="addVote" rel="{{description}}">ajouter un vote pour {{description}}</a>
+            <a href="#" class="btn btn-small" id="addVote" rel="{{description}}"><i class="icon  icon-plus-sign"></i> ajouter un vote pour {{description}}</a>
           {{/if}}
           <form class="inline-form hide">
             <label>Votre sentiment sur cet objet :</label> :
