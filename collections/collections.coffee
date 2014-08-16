@@ -44,6 +44,7 @@ if (Meteor.isServer)
       )
     
     updateVote: (pix, description, priority, userId)->
+      console.log "try to update : ", "pix-->", pix, "description : ", description,"priority :", priority,"user :", userId
       o = Objects.findOne(pix._id, "objects.description":description)
       console.log o.objects
       theObjectKey = null
@@ -56,9 +57,23 @@ if (Meteor.isServer)
           _(object.votes).each (vote, voteKey)->
             if(vote.userid == userId)
               theVoteKey = voteKey
-
-
-      console.log theObjectKey, theVoteKey
+      #if the vote for this object from this user does not exist, we create one and return
+      if(theVoteKey is null)
+        Objects.update(
+          {_id: pix._id, "objects.description":description},
+          $push:
+            "objects.$.votes":   
+              priority: priority
+              userid: userId         
+          , (err, nb)->
+            if(err)
+              console.log('err :', err)
+            else
+              console.log('ok : ', nb, 'vote added')
+        )
+        return
+      #else we update the existing vote
+      console.log "objectKey : ", theObjectKey,"voteKey : ", theVoteKey
       vote = {}
       vote["objects."+theObjectKey+".votes."+theVoteKey] =  {priority : priority, userid : userId}
       

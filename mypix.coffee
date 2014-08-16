@@ -4,6 +4,7 @@ if (Meteor.isClient)
   Meteor.startup ()->
     Session.set('page', 'hello')
     Session.set('id',null)
+    T9n.setLanguage('fr');
 
   navigate = (href)->
     $(".nav li").removeClass('active')
@@ -47,6 +48,8 @@ if (Meteor.isClient)
       page = link.attr("href")
       Session.set('page', page)
     )
+  Template.nav.rendered = ()->
+    console.log "try to i18n"
 
   #hello
   Template.hello.events(
