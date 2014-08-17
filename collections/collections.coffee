@@ -42,7 +42,20 @@ if (Meteor.isServer)
           else
             console.log('ok : ', nb, 'vote added')
       )
-    
+    removeVote: (pix, description, userId)->
+      console.log "removing vote : ", "pix ", pix, "description ", description, "userid ", userId
+      Objects.update(
+        {_id: pix._id, "objects.description":description},
+        $pull:
+          "objects.$.votes":  
+            userid: userId         
+        , (err, nb)->
+          if(err)
+            console.log('err :', err)
+          else
+            console.log('ok : ', nb, 'vote removed')
+      )      
+
     updateVote: (pix, description, priority, userId)->
       console.log "try to update : ", "pix-->", pix, "description : ", description,"priority :", priority,"user :", userId
       o = Objects.findOne(pix._id, "objects.description":description)

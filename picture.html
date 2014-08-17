@@ -7,6 +7,8 @@
     <div class="span4">
      {{#if currentUser}}
       <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
+      <p><a class="btn btn-primary" id="addObject">Ajouter un objet</a></p>
+
       <div id="votes">
         {{>votes}}
       </div>
@@ -26,12 +28,7 @@
     <form id="frmVotes" class="hide">
       <h2>Ajouter un objet</h2>
       <label>Description</label><input type="text" id="description" name="description" placeholder="décrire l'objet voulu" />
-      <label>Votre sentiment sur cet objet :</label>
-      <select name="vote" id="vote">
-        <option value="1">Si personne n'en veux, je le veux bien !</option>
-        <option value="2">J'aimerai bien le récupérer...</option>
-        <option value="3">Je le veux !</option>
-      </select>
+      {{>selection}}
       <p>
             <a class="btn btn-primary" href="#" id="save">Enregistrer &raquo;</a>
       </p>
@@ -41,7 +38,7 @@
     {{#if voteslist}}
     <table class="table table-bordered table-hover ">
       <thead>
-        <tr><th>Objet</th><th>Vote</th></tr>
+        <tr><th>Objet</th><th>Voeux</th></tr>
       </thead>
       <tbody>
         {{#each voteslist}}
@@ -53,17 +50,13 @@
               </div>
             {{/each}}
           {{#if userHasVoted}}
-            <a href="#" class="btn btn-small" id="changeVote" rel="{{description}}"><i class="icon icon-edit"></i> changer votre vote pour {{description}}</a>
+            <a href="#" class="btn btn-small" id="changeVote" rel="{{description}}"><i class="icon icon-edit"></i> modifier</a>
+            <a href="#" class="btn btn-small" id="removeVote" rel="{{description}}"><i class="icon icon-trash"></i> supprimer</a>
           {{else}}
-            <a href="#" class="btn btn-small" id="addVote" rel="{{description}}"><i class="icon  icon-plus-sign"></i> ajouter un vote pour {{description}}</a>
+            <a href="#" class="btn btn-small" id="addVote" rel="{{description}}"><i class="icon  icon-plus-sign"></i> ajouter un voeux pour {{description}}</a>
           {{/if}}
           <form class="inline-form hide">
-            <label>Votre sentiment sur cet objet :</label> :
-            <select name="vote" id="vote">
-              <option value="1">Si personne n'en veux, je le veux bien !</option>
-              <option value="2">J'aimerai bien le récupérer...</option>
-              <option value="3">C'est mon objet préferé !</option>
-            </select>
+            {{>selection}}
              <!-- <input type="text" id="vote" name="vote" placehoder="votre note"/> -->
           </form>
           </td>
@@ -73,6 +66,14 @@
       </tbody>      
     </table>
     {{/if}}
-    <a class="btn btn-primary" id="addObject">Ajouter un objet</a>
   </div> 
+</template>
+
+<template name="selection">
+  <label>Cet objet compte pour vous :</label>
+  <select name="vote" id="vote">
+    <option value="1">Un peu</option>
+    <option value="2">Beaucoup</option>
+    <option value="3">Passionnément</option>
+  </select>
 </template>

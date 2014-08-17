@@ -124,6 +124,17 @@ if (Meteor.isClient)
       $('#frmVotes').fadeIn('fast')
       $('a.addVote').fadeOut('fast')
 
+    #suppression d'un vote à un objet existant
+    'click #removeVote' : (evt)->
+      evt.preventDefault()
+      description = $(evt.currentTarget).attr('rel')
+      pix = Objects.findOne({name: Session.get("id")})
+      Meteor.call "removeVote", pix, description, Meteor.userId(), (err, nb)->
+        if(err)
+          console.log('err :', err)
+        else
+          console.log('ok : ', nb, 'removed')
+
     #ajout d'un nouvel objet
     'click #addObject' : (evt)->
       evt.preventDefault()
@@ -211,6 +222,17 @@ if (Meteor.isClient)
       link=$(evt.currentTarget)
       Session.set('id',link.attr('href'))
       Session.set('page','picture')
+    )
+  Template.globalvotes.helpers(
+    label: (p)->
+      switch parseInt(p)
+              when 1
+                return "un peu"
+              when 2
+                return "beaucoup"
+              when 3
+                return "passionnément"
+
     )
 
 if (Meteor.isServer) 
