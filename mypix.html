@@ -1,22 +1,16 @@
+<template name="main">
 <head>
   <title>Croisy - Inventaire</title>
 </head>
-
-
 <body>
-
     <div class="container">
-
       <!-- Static navbar -->
       {{> nav}}
-      {{> main}}
+      <div class="container main" id="main">
+        {{> yield}}
+      </div>
   </div> <!-- /container -->
 </body>
-
-<template name="main">
-  <div class="container main" id="main">
-    {{> content}}
-  </div>
 </template>
 
 <template name="nav">
@@ -26,10 +20,10 @@
         <div class="navbar-inner">
           <div class="container">
             <ul class="nav">
-              <li class="active"><a href="home">Accueil</a></li>
-              <li><a href="inventory">Inventaire</a></li>
-              <li><a href="picture">Image</a></li>
-              <li><a href="votes">Liste voeux</a></li>
+              <li class="{{ activeIfTemplateIs 'home' }}"><a href="{{ pathFor 'home'}}">Accueil</a></li>
+              <li class="{{ activeIfTemplateIs 'inventory' }}"><a href="{{ pathFor 'inventory'}}">Inventaire</a></li>
+              <li class="{{ activeIfTemplateIs 'picture' }}"><a href="{{ pathFor 'picture'}}">Image</a></li>
+              <li class="{{ activeIfTemplateIs 'globalvotes' }}"><a href="{{ pathFor 'votes'}}">Liste voeux</a></li>
             </ul>
             <div class="navbarform pull-right">
               {{> loginButtons}}

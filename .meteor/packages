@@ -12,3 +12,4 @@ underscore
 accounts-ui
 accounts-password
 accounts-templates-core
+iron-router

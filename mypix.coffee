@@ -1,59 +1,43 @@
 if (Meteor.isClient)
   Objects = new Meteor.Collection("objects")
   
+  Meteor.subscribe('objects')
+
   Meteor.startup ()->
     Session.set('page', 'hello')
     Session.set('id',null)
+  
+  #### Routes ###
+  Router.configure(
+    layoutTemplate: 'main'  
+  )
 
-  navigate = (href)->
-    $(".nav li").removeClass('active')
-    $("a[href='"+href+"']").parent().addClass('active')
+  Router.map ()->
+    @.route 'home', 
+      path:"/",
+      template: 'hello'
 
-  #main
-  Template.main.content = ()->
-    Meteor.subscribe('objects')
-    page = Session.get('page')
+    @.route 'inventory', 
+      path:"/inventory",
+      template: 'inventory'
 
-    switch page
-      when 'hello'
-       t =  Template.hello
-       navigate('hello')  
+    @.route 'picture',
+      path:"/picture/:pix_id",
+      template: 'picture'
 
-      when 'picture'  
-        if(Session.get('id') is null)
-          Session.set('page','hello')
-          return
-
-        navigate('picture')
-        t = Template.picture
-
-      when 'inventory'      
-        navigate('inventory')
-        t = Template.inventory
-
-      when 'votes'      
-        navigate('votes')
-        t = Template.globalvotes
-
-      else t = Template.hello
-    t
+    @.route 'votes',
+      path:"/votes",
+      template: 'globalvotes'
 
   #nav
-  Template.nav.events(
-    'click a': (evt)->
-      evt.preventDefault()
-      link = $(evt.currentTarget)
-      # console.log link
-      page = link.attr("href")
-      Session.set('page', page)
-    )
-  Template.nav.rendered = ()->
-    console.log "try to i18n"
+  Template.nav.helpers activeIfTemplateIs: (template) ->
+    currentRoute = Router.current()
+    (if currentRoute and template is currentRoute.lookupTemplate() then "active" else "")
 
   #hello
   Template.hello.events(
     'click a': ()->
-        Session.set('page', 'inventory')
+        Router.go('inventory')
     )
 
   #inventory
@@ -62,25 +46,17 @@ if (Meteor.isClient)
     #console.log list
     list
 
-  Template.inventory.events(
-    'click a' : (evt)->
-      evt.preventDefault()
-      link=$(evt.currentTarget)
-      Session.set('id',link.attr('id'))
-      Session.set('page','picture')
-    )
-
   #picture
   Template.picture.file = ()->
-    if(Session.get('id')?)
-      pix = Objects.findOne({name: Session.get('id')})
+    if(Router.current().params['pix_id']?)
+      pix = Objects.findOne({name: Router.current().params['pix_id']})
       if(pix?)
-        console.log pix
+        #console.log pix
         pix
 
   Template.votes.voteslist = ()->
-    if(Session.get('id')?)
-      pix = Objects.findOne({name: Session.get('id')})
+    if(Router.current().params['pix_id']?)
+      pix = Objects.findOne({name: Router.current().params['pix_id']})
       if(pix?)
         _(pix.objects).each (object,keyObject)->
           object.votes = _(object.votes).sortBy (v)->
@@ -88,34 +64,20 @@ if (Meteor.isClient)
 
           _(object.votes).each (vote, keyVote)->
             pix.objects[keyObject].votes[keyVote].priority = vote.priority * 100/3
-            switch vote.priority
-              when 1
-                l = "*"
-              when 2
-                l = "**"
-              when 3
-                l = "***"
-
-            pix.objects[keyObject].votes[keyVote].label = l
-
-
-
-
+            
             if(Meteor.userId() ==  vote.userid )
               pix.objects[keyObject].votes[keyVote].user = "vous"
               pix.objects[keyObject].userHasVoted = true
             else
               if(vote.userid)
                 address = Meteor.users.findOne({_id : vote.userid}).emails[0].address
-                console.log address
-                pix.objects[keyObject].votes[keyVote].user = address
-            
-            console.log 'vote : ',vote, keyVote
-        console.log pix
+                #console.log address
+                pix.objects[keyObject].votes[keyVote].user = address            
+            #console.log 'vote : ',vote, keyVote
+        #console.log pix
         pix.objects
 
   Template.picture.events(
-
     #ajout d'un vote à un objet existant
     'click #addVote,#changeVote' : (evt)->
       evt.preventDefault()
@@ -128,7 +90,7 @@ if (Meteor.isClient)
     'click #removeVote' : (evt)->
       evt.preventDefault()
       description = $(evt.currentTarget).attr('rel')
-      pix = Objects.findOne({name: Session.get("id")})
+      pix = Objects.findOne({name: Router.current().params['pix_id']})
       Meteor.call "removeVote", pix, description, Meteor.userId(), (err, nb)->
         if(err)
           console.log('err :', err)
@@ -138,17 +100,14 @@ if (Meteor.isClient)
     #ajout d'un nouvel objet
     'click #addObject' : (evt)->
       evt.preventDefault()
-
       $('#frmVotes')[0].reset()
       $('#description').prop('disabled',false)
-
-
       $('#frmVotes').fadeIn('fast')
       $('a.addVote').fadeOut('fast')
 
     'click #save' : (evt)->
       evt.preventDefault()
-      name = Session.get("id")
+      name = Router.current().params['pix_id']
       priority = $('#vote').val()
       description = $('#description').val()
       pix = Objects.findOne({name: name})
@@ -167,8 +126,7 @@ if (Meteor.isClient)
             if(err)
               console.log('err :', err)
             else
-              console.log('ok : ', nb, 'updated')
-        
+              console.log('ok : ', nb, 'updated')        
       else
         console.log 'creating object : ', description
         Objects.update( 
@@ -188,7 +146,6 @@ if (Meteor.isClient)
         )
       $('#frmVotes').fadeOut('fast')      
       $('a.addVote').fadeIn('fast')
-
     )
 
   #votes
@@ -215,14 +172,7 @@ if (Meteor.isClient)
       #console.log pix
 
     pixList
-
-  Template.globalvotes.events(
-    'click a' : (evt)->
-      evt.preventDefault()
-      link=$(evt.currentTarget)
-      Session.set('id',link.attr('href'))
-      Session.set('page','picture')
-    )
+  
   Template.globalvotes.helpers(
     label: (p)->
       switch parseInt(p)
