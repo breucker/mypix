@@ -182,7 +182,27 @@ if (Meteor.isClient)
 
   #votes
   Template.globalvotes.voteslist = ()->
-    pixList = Objects.find({objects: {$exists: true}})
+    pixList = Objects.find({objects: {$exists: true}}).fetch()
+    console.log "pixList", pixList
+    #picturesList = {}
+    _(pixList).each (pix, keyPix)->
+      _(pix.objects).each (object,keyObject)->
+        object.votes = _(object.votes).sortBy (v)->
+          -v.priority
+
+        _(object.votes).each (vote, keyVote)->
+          if(Meteor.userId() ==  vote.userid )
+            pix.objects[keyObject].votes[keyVote].user = "vous"
+            pix.objects[keyObject].userHasVoted = true
+          else
+            if(vote.userid)
+              address = Meteor.users.findOne({_id : vote.userid}).emails[0].address
+              console.log address
+              pix.objects[keyObject].votes[keyVote].user = address
+          
+          console.log 'vote : ',vote, keyVote
+      #console.log pix
+
     pixList
 
   Template.globalvotes.events(
