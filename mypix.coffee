@@ -24,6 +24,8 @@ if (Meteor.isClient)
     @.route 'picture',
       path:"/picture/:pix_id",
       template: 'picture'
+      onAfterAction: ->
+        $('html, body').animate({scrollTop:0}, 'slow')
 
     @.route 'votes',
       path:"/votes",
@@ -151,7 +153,7 @@ if (Meteor.isClient)
   #votes
   Template.globalvotes.voteslist = ()->
     pixList = Objects.find({objects: {$exists: true}}).fetch()
-    console.log "pixList", pixList
+    #console.log "pixList", pixList
     #picturesList = {}
     _(pixList).each (pix, keyPix)->
       _(pix.objects).each (object,keyObject)->
@@ -165,14 +167,30 @@ if (Meteor.isClient)
           else
             if(vote.userid)
               address = Meteor.users.findOne({_id : vote.userid}).emails[0].address
-              console.log address
+              #console.log address
               pix.objects[keyObject].votes[keyVote].user = address
           
-          console.log 'vote : ',vote, keyVote
+          #console.log 'vote : ',vote, keyVote
       #console.log pix
 
     pixList
-  
+
+  Template.globalvotes.userVotes = ()->
+      exportObjects = new Array()
+
+      pixList = Objects.find({objects: {$exists: true}}).fetch()
+      _(pixList).each (pix, keyPix)->
+        _(pix.objects).each (object,keyObject)->
+          _(object.votes).each (vote, keyVote)->
+            if(vote.userid)
+              address = Meteor.users.findOne({_id : vote.userid}).emails[0].address
+            exportObjects.push(name: pix.name,url: pix.url, description : object.description,user:  address, priority: vote.priority)
+
+      exportObjects = _(exportObjects).sortBy (e)->
+          e.user
+      exportObjects
+
+
   Template.globalvotes.helpers(
     label: (p)->
       switch parseInt(p)
@@ -183,6 +201,12 @@ if (Meteor.isClient)
               when 3
                 return "passionnément"
 
+    )
+
+  Template.globalvotes.events(
+    'click #exportcsv': ()->
+      exportcsv = Meteor.call 'exportCsv', (err, res)->
+        console.log res
     )
 
 if (Meteor.isServer) 

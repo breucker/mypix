@@ -107,4 +107,24 @@ if (Meteor.isServer)
       console.log u.emails[0].address
       return u.emails[0].address
 
-    )
+    exportCsv: ()->
+      exportObjects = new Array(new Array("Image","Objet","User","Note"))
+
+      pixList = Objects.find({objects: {$exists: true}}).fetch()
+      console.log "exporting ", pixList
+      #picturesList = {}
+      _(pixList).each (pix, keyPix)->
+        _(pix.objects).each (object,keyObject)->
+          _(object.votes).each (vote, keyVote)->
+            if(vote.userid)
+              address = Meteor.users.findOne({_id : vote.userid}).emails[0].address
+            exportObjects.push(new Array(pix.name,object.description, address, vote.priority))
+
+      console.log exportObjects
+      
+      CSV().from(exportObjects).to('../../../../../.out.csv')
+      return exportObjects
+
+              
+  )
+

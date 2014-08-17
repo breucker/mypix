@@ -2,13 +2,19 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "fs": {}
+      "fs": {},
+      "node-csv-npm": {}
     },
     "packages": {
       "fs": {
         "git": "https://github.com/peerlibrary/meteor-fs.git",
         "tag": "v0.1.4",
         "commit": "621152ae48435802219aff8bc38b4895731d152d"
+      },
+      "node-csv-npm": {
+        "git": "https://github.com/Dsyko/meteor-node-csv.git",
+        "tag": "v0.3.6",
+        "commit": "01be0e3e834a4f033121cb3fcc92c2697741170d"
       },
       "assert": {
         "git": "https://github.com/peerlibrary/meteor-assert.git",

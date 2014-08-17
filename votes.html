@@ -1,26 +1,60 @@
 <template name="globalvotes">
 <h1>Liste des voeux exprimés</h1>
-{{#each voteslist}}
- <h2><img src="{{url}}" class="small-img"> <a href="/picture/{{name}}">{{name}}</a></h2>
+
  
-<table  id="votes" class="table table-striped">
-  <thead>
-    <tr><th>Objet</th><th>Voeux</th></tr>
-  </thead>
-  <tbody>
-  {{#each objects}}
-    <tr>
-      <td>{{description}}</td>
-      <td>
-        <ul>
-            {{#each votes}}
-              <li>{{user}} : {{label priority}}</li>
-            {{/each}}
-        </ul>
-      </td>
-    </tr>
-  {{/each}}
-  </tbody>      
-</table>
-{{/each}}
+<ul id="#tabs" class="nav nav-tabs">
+  <li class="active"><a href="#pix" data-toggle="tab">Par photo</a></li>
+  <li ><a href="#users" data-toggle="tab">Par personne</a></li>
+  <li ><a href="#export" data-toggle="tab">Export</a></li>
+</ul>
+ 
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="pix">
+              {{#each voteslist}}
+              <h2><img src="{{url}}" class="small-img" /> <a href="/picture/{{name}}">{{name}}</a></h2>
+              <table  id="votes" class="table table-striped">
+                <thead>
+                  <tr><th>Objet</th><th>Voeux</th></tr>
+                </thead>
+                <tbody>
+                {{#each objects}}
+                  <tr>
+                    <td>{{description}}</td>
+                    <td>
+                      <ul>
+                          {{#each votes}}
+                            <li>{{user}} : {{label priority}}</li>
+                          {{/each}}
+                      </ul>
+                    </td>
+                  </tr>
+                {{/each}}
+                </tbody>      
+              </table>
+              {{/each}}
+            </div>
+            <div class="tab-pane fade" id="users">
+              
+              <table  id="votes" class="table table-striped">
+                <thead>
+                  <tr><th>Personne</th><th>Image</th><th>Objet</th><th>Voeux</th></tr>
+                </thead>
+                <tbody>
+                {{#each userVotes}}
+                
+                  <tr>
+                    <td>{{user}}</td>
+                    <td><img src="{{url}}" class="small-img"> <a href="/picture/{{name}}">{{name}}</a></td>
+                    <td>{{description}}</td>
+                    <td>{{label priority}}</td>
+                  </tr>
+                {{/each}}  
+                </tbody>  
+              </table>
+              
+            </div>
+            <div class="tab-pane fade" id="export">
+              <div><button class="btn" id="exportcsv">Export</button></div>
+            </div>
+          </div>
 </template>

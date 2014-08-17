@@ -1,5 +1,6 @@
 {
   "packages": {
-    "fs": {}
+    "fs": {},
+    "node-csv-npm": {}
   }
 }
