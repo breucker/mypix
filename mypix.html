@@ -24,10 +24,9 @@
               <li class="{{ activeIfTemplateIs 'inventory' }}"><a href="{{ pathFor 'inventory'}}">Inventaire</a></li>
               <li class="{{ activeIfTemplateIs 'picture' }}"><a href="{{ pathFor 'picture'}}">Image</a></li>
               <li class="{{ activeIfTemplateIs 'globalvotes' }}"><a href="{{ pathFor 'votes'}}">Liste voeux</a></li>
+              <li class="divider-vertical"></li>
+              <li class="signin">{{> loginButtons}}</li>
             </ul>
-            <div class="navbarform pull-right">
-              {{> loginButtons}}
-            </div>
           </div>
         </div>
       </div><!-- /.navbar -->
@@ -50,8 +49,9 @@
             <p>
               <strong>Inscription - </strong>
               Vous devez vous inscrire pour pouvoir ajouter des objets et des voeux : cliquez sur le lien "Sign In" en haut à droite, puis sur "create account". Entrez votre email et un mot de passe, puis cliquez sur le bouton "create account". Ensuite pour commencer, cliquer sur le bouton "démarrer" si dessous (ou sur "Inventaire" dans le menu).
+              
             </p>
-            <a class="btn btn-lg btn-primary" href="#">Démarrer &raquo;</a>
+            <a class="btn btn-lg btn-primary" href="/inventory">Démarrer &raquo;</a>
           </div>
         </div>
             

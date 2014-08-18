@@ -37,10 +37,10 @@ if (Meteor.isClient)
     (if currentRoute and template is currentRoute.lookupTemplate() then "active" else "")
 
   #hello
-  Template.hello.events(
-    'click a': ()->
-        Router.go('inventory')
-    )
+  # Template.hello.events(
+  #   'click a': ()->
+  #       Router.go('inventory')
+  #   )
 
   #inventory
   Template.inventory.pixlist = ()->

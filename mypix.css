@@ -3,6 +3,8 @@
 .main{
 	margin-top: 10%;
 }
-
+.signin{
+	padding-top: 10px;
+}
 .hide{display: none}
 .small-img{width: 10%}
