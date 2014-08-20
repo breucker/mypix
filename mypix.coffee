@@ -22,7 +22,7 @@ if (Meteor.isClient)
       template: 'inventory',
       onAfterAction: ->
         #console.log 'scrollTop animate :',Session.get('scrollTop')
-        $('html, body').animate({scrollTop:Session.get('scrollTop')}, 'slow')
+        $('html, body').animate({scrollTop:Session.get('scrollTop')}, 'fast')
 
     @.route 'picture',
       path:"/picture/:pix_id",
@@ -37,6 +37,9 @@ if (Meteor.isClient)
     @.route 'votes',
       path:"/votes",
       template: 'globalvotes'
+      onAfterAction: ->
+        #console.log 'scrollTop animate :',Session.get('scrollTop')
+        $('html, body').animate({scrollTop:Session.get('scrollTop')}, 'fast')
 
   #nav
   Template.nav.helpers activeIfTemplateIs: (template) ->
