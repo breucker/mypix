@@ -19,11 +19,18 @@ if (Meteor.isClient)
 
     @.route 'inventory', 
       path:"/inventory",
-      template: 'inventory'
+      template: 'inventory',
+      onAfterAction: ->
+        #console.log 'scrollTop animate :',Session.get('scrollTop')
+        $('html, body').animate({scrollTop:Session.get('scrollTop')}, 'slow')
 
     @.route 'picture',
       path:"/picture/:pix_id",
-      template: 'picture'
+      template: 'picture',
+      onBeforeAction: ->
+        #console.log 'scrollTop set :',$(window).scrollTop()
+        Session.set('scrollTop',$(window).scrollTop())
+      ,
       onAfterAction: ->
         $('html, body').animate({scrollTop:0}, 'slow')
 

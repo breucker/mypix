@@ -1,10 +1,15 @@
 <template name="picture">
-  <h1>{{file.name}}</h1>
+  <h1>{{file.name}}
+    <p class="pull-right">
+      <a class="btn" href="javascript:history.go(-1)">Retour à l'inventaire</a>
+    </p>
+  </h1>
   <div class="row">
     <div class="span8">
       <img src="{{file.url}}" />
     </div>
     <div class="span4">
+
      {{#if currentUser}}
       <p>Un objet vous intéresse dans cette photo ? Cliquer sur le bouton ci-dessous pour enregistrer votre voeux !</p>
       <p><a class="btn btn-primary" id="addObject">Ajouter un objet</a></p>
@@ -65,8 +70,11 @@
         {{/each}}
       </tbody>      
     </table>
+  
+    {{else}}
+      (aucun objet pour l'instant)
     {{/if}}
-  </div> 
+  </div>
 </template>
 
 <template name="selection">

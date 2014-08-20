@@ -11,6 +11,5 @@ fs
 underscore
 accounts-ui
 accounts-password
-accounts-templates-core
 iron-router
 node-csv-npm

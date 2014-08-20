@@ -1,6 +1,9 @@
 {
   "packages": {
     "fs": {},
-    "node-csv-npm": {}
-  }
+    "node-csv-npm": {},
+    "iron-router": {
+          "version": "0.8.2"
+        }
+    }
 }
